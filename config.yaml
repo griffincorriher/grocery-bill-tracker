@@ -1,27 +1,21 @@
 cookie:
-  expiry_days: 30
-  key: hello # To be filled with any string
-  name: goodbye # To be filled with any string
+  expiry_days: 0
+  key: cookiekey
+  name: cookiename
 credentials:
   usernames:
     griffin:
-      email: griffincorriher@gmail.com
-      failed_login_attempts: 3 # Will be managed automatically
-      first_name: Griffin
-      last_name: Corriher
-      logged_in: False # Will be managed automatically
-      password: good! # Will be hashed automatically
-      roles: # Optional
+      failed_login_attempts: 3
+      logged_in: false
+      password: $2b$12$ntL3j0znAAtg1AVJzirgYeyI9M/e1Wcf71yFofM2/UB4oLpieZohK
+      roles:
       - admin
       - editor
       - viewer
     siti:
-      email: snurharyati@gmail.com
-      failed_login_attempts: 3 # Will be managed automatically
-      first_name: Siti
-      last_name: Nurharyati
-      logged_in: False # Will be managed automatically
-      password: bad # Will be hashed automatically
-      roles: # Optional
+      failed_login_attempts: 3
+      logged_in: false
+      password: $2b$12$zh.YPR0F5kasvQzGjzzJteDxqRu4M.zz0UqwdEzUpS3Nu6dpKhX8K
+      roles:
       - editor
       - viewer
