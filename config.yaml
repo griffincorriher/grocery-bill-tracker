@@ -1,0 +1,27 @@
+cookie:
+  expiry_days: 30
+  key: hello # To be filled with any string
+  name: goodbye # To be filled with any string
+credentials:
+  usernames:
+    griffin:
+      email: griffincorriher@gmail.com
+      failed_login_attempts: 3 # Will be managed automatically
+      first_name: Griffin
+      last_name: Corriher
+      logged_in: False # Will be managed automatically
+      password: good! # Will be hashed automatically
+      roles: # Optional
+      - admin
+      - editor
+      - viewer
+    siti:
+      email: snurharyati@gmail.com
+      failed_login_attempts: 3 # Will be managed automatically
+      first_name: Siti
+      last_name: Nurharyati
+      logged_in: False # Will be managed automatically
+      password: bad # Will be hashed automatically
+      roles: # Optional
+      - editor
+      - viewer
