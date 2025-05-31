@@ -4,6 +4,8 @@ import datetime
 import yaml
 from yaml.loader import SafeLoader
 
+from streamlit_authenticator.utilities import Hasher
+
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 
@@ -14,14 +16,26 @@ authenticator = stauth.Authenticate(
     config['cookie']['expiry_days']
 )
 
+with open('config.yaml', 'w', encoding='utf-8') as file:
+    yaml.dump(config, file, default_flow_style=False)
+
 try:
     authenticator.login()
 except Exception as e:
     st.error(e)
 
 if st.session_state.get('authentication_status'):
-    with st.sidebar:
-        authenticator.logout()
+
+    spacer, user_block = st.columns([6, 4])
+
+    with user_block:
+        name_col, logout_col = st.columns([4, 2])  # Adjust these as needed
+
+        with name_col:
+            st.markdown(f"<div style='margin-top: 8px;'>👤 {st.session_state.get('name')}</div>", unsafe_allow_html=True)
+
+        with logout_col:
+            authenticator.logout("Logout", location="main")
 
 
     row = st.columns(3)
