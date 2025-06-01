@@ -7,6 +7,7 @@ from tablesplots import tablesplots
 from paydaysapi import get_semi_monthly_paydays, save_to_yaml
 import os
 from datetime import datetime
+from dataconnection import clear_worksheet
 
 if (datetime.now().month == 1 and datetime.now().day == 1) or not os.path.exists("paydays.yaml"):
     paydates = get_semi_monthly_paydays(datetime.now().year)
@@ -49,7 +50,8 @@ if st.session_state.get('authentication_status'):
             authenticator.logout("Logout", location="main")
 
     grocery_form()
-    tablesplots()
+
+    tablesplots(disableClearWorksheetButton=True)
 
 elif st.session_state.get('authentication_status') is False:
     st.error('Username/password is incorrect')
