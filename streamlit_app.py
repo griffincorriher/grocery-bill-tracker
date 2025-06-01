@@ -1,10 +1,16 @@
 import streamlit as st
 import streamlit_authenticator as stauth
-import datetime
 import yaml
 from yaml.loader import SafeLoader
+from grocery_bill_tracker import grocery_bill_tracker
+from paydaysapi import get_semi_monthly_paydays, save_to_yaml
+import os
+from datetime import datetime
 
-from streamlit_authenticator.utilities import Hasher
+if (datetime.now().month == 1 and datetime.now().day == 1) or not os.path.exists("paydays.yaml"):
+    print(f"pay year: {datetime.now().year}")
+    paydates = get_semi_monthly_paydays(datetime.now().year)
+    save_to_yaml(paydates)
 
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
@@ -19,12 +25,17 @@ authenticator = stauth.Authenticate(
 with open('config.yaml', 'w', encoding='utf-8') as file:
     yaml.dump(config, file, default_flow_style=False)
 
+
 try:
     authenticator.login()
+
 except Exception as e:
     st.error(e)
 
+
 if st.session_state.get('authentication_status'):
+    if 'avatar' not in st.session_state:
+        st.session_state['avatar'] = config['credentials']['usernames'][st.session_state['username']]['avatar']
 
     spacer, user_block = st.columns([6, 4])
 
@@ -32,26 +43,17 @@ if st.session_state.get('authentication_status'):
         name_col, logout_col = st.columns([4, 2])  # Adjust these as needed
 
         with name_col:
-            st.markdown(f"<div style='margin-top: 8px;'>👤 {st.session_state.get('name')}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='margin-top: 8px;'>{st.session_state['avatar']} {st.session_state['username']}</div>", unsafe_allow_html=True)
 
         with logout_col:
             authenticator.logout("Logout", location="main")
 
-
-    row = st.columns(3)
-    st.title("Grocery Bill Tracker")
-    st.sidebar.metric(label="MoM Spend", value=4, delta=-0.5, delta_color="inverse")
-    st.sidebar.metric(label="YoY Spend", value=4, delta=-0.5, delta_color="inverse")
-
-    with st.form("grocery_bill_form"):
-        grocery_purchase_date = st.date_input("Grocery purchase date", datetime.datetime.now())
-        grocery_bill = st.number_input("Grocery price", value=None, placeholder="Bill amount")
-        submitted = st.form_submit_button("Submit")
-        if submitted:
-            st.write(f"Total spent this pay period:")
-
+    grocery_bill_tracker()
 
 elif st.session_state.get('authentication_status') is False:
     st.error('Username/password is incorrect')
 elif st.session_state.get('authentication_status') is None:
     st.warning('Please enter your username and password')
+
+if not st.session_state.get('authentication_status'):
+    st.session_state.pop("avatar", None)
