@@ -2,13 +2,13 @@ import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
 from yaml.loader import SafeLoader
-from grocery_bill_tracker import grocery_bill_tracker
+from grocery_form import grocery_form
+from tablesplots import tablesplots
 from paydaysapi import get_semi_monthly_paydays, save_to_yaml
 import os
 from datetime import datetime
 
 if (datetime.now().month == 1 and datetime.now().day == 1) or not os.path.exists("paydays.yaml"):
-    print(f"pay year: {datetime.now().year}")
     paydates = get_semi_monthly_paydays(datetime.now().year)
     save_to_yaml(paydates)
 
@@ -48,7 +48,8 @@ if st.session_state.get('authentication_status'):
         with logout_col:
             authenticator.logout("Logout", location="main")
 
-    grocery_bill_tracker()
+    grocery_form()
+    tablesplots()
 
 elif st.session_state.get('authentication_status') is False:
     st.error('Username/password is incorrect')
