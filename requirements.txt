@@ -1,3 +1,4 @@
-streamlit
+streamlit>=1.22
 streamlit_authenticator
+st-gsheets-connection
 holidays
