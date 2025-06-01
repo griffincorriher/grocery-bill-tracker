@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 def tablesplots(disableClearWorksheetButton=True):
     df = read_data()
     st.subheader("Current pay period grocery receipts")
-    st.dataframe(df[df['pay period'] == df['pay period'].max()])
+    st.dataframe(df[df['pay period'] == df['pay period'].max()].sort_values('grocery date', ascending=False))
 
 
     if st.button("Clear worksheet", disabled = disableClearWorksheetButton):
