@@ -10,7 +10,6 @@ def get_adjusted_payday(date, holiday_list):
     return date
 
 def get_semi_monthly_paydays(year):
-    print(year)
     us_holidays = holidays.UnitedStates(years=year)
     paydays = []
 
