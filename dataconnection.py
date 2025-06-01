@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 
+# Read secrets
 spreadsheet = st.secrets["connections"]["gsheets"]["spreadsheet"]
 worksheet = st.secrets["connections"]["gsheets"]["worksheet"]
 
