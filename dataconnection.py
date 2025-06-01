@@ -17,10 +17,6 @@ def read_data():
         usecols=[0, 1, 2],
     )
 
-    df['pay period'] = pd.to_datetime(df['pay period']).dt.date
-    df['grocery date'] = pd.to_datetime(df['grocery date']).dt.date
-
-
     return df
     # df_editor = st.data_editor(df, num_rows="dynamic")
     
@@ -28,7 +24,7 @@ def read_data():
 def update_data(grocery_dict):
     temp_df = read_data()
     df = pd.concat([pd.DataFrame([grocery_dict]), temp_df], ignore_index=True)
-    
+
     conn = st.connection("gsheets", type=GSheetsConnection)
 
     df = conn.update(
@@ -42,6 +38,8 @@ def update_data(grocery_dict):
 def refresh_data_table(grocery_dict):
     temp_df = read_data()
     df = pd.concat([pd.DataFrame([grocery_dict]), temp_df], ignore_index=True)
+    df['grocery date'] = pd.to_datetime(df['grocery date']).dt.date
+    df['pay period'] = pd.to_datetime(df['pay period']).dt.date   
     
     conn = st.connection("gsheets", type=GSheetsConnection)
 
