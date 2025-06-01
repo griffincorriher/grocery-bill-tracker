@@ -3,8 +3,10 @@ from datetime import datetime
 from streamlit_gsheets import GSheetsConnection
 from dataconnection import read_data
 
+
 def grocery_bill_tracker():
-    read_data()
+    if st.button("Update worksheet"):    
+        read_data()
 
     row = st.columns(3)
     st.title("Grocery Bill Tracker")
